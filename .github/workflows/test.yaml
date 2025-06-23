@@ -21,14 +21,19 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup devenv
-        uses: andyl-technologies/github-actions/setup-devenv@master
+        uses: andyl-technologies/github-actions/setup-devenv@4b005b192a0b5268eb7e5adc11be13f944de9e80 # master
 
       - name: Setup Rust cache
-        uses: andyl-technologies/github-actions/rust-cache@master
+        uses: andyl-technologies/github-actions/rust-cache@4b005b192a0b5268eb7e5adc11be13f944de9e80 # master
         with:
           cache-all-crates: true
           use-sccache: true
@@ -43,14 +48,19 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup devenv
-        uses: andyl-technologies/github-actions/setup-devenv@master
+        uses: andyl-technologies/github-actions/setup-devenv@4b005b192a0b5268eb7e5adc11be13f944de9e80 # master
 
       - name: Setup Rust cache
-        uses: andyl-technologies/github-actions/rust-cache@master
+        uses: andyl-technologies/github-actions/rust-cache@4b005b192a0b5268eb7e5adc11be13f944de9e80 # master
         with:
           cache-all-crates: true
 
@@ -64,12 +74,17 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: ${{ github.actor != 'dependabot[bot]'}}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: 'Dependency Review'
-        uses: actions/dependency-review-action@v4
+        uses: actions/dependency-review-action@da24556b548a50705dd671f47852072ea4c105d9 # v4.7.1
       - name: OSSF Scorecard action
-        uses: ossf/scorecard-action@v2.4.2
+        uses: ossf/scorecard-action@05b42c624433fc40578a4040d5cf5e36ddca8cde # v2.4.2
         with:
           results_file: results.sarif
           results_format: sarif
@@ -84,20 +99,25 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup devenv
-        uses: andyl-technologies/github-actions/setup-devenv@master
+        uses: andyl-technologies/github-actions/setup-devenv@4b005b192a0b5268eb7e5adc11be13f944de9e80 # master
 
       - name: Setup Rust cache
-        uses: andyl-technologies/github-actions/rust-cache@master
+        uses: andyl-technologies/github-actions/rust-cache@4b005b192a0b5268eb7e5adc11be13f944de9e80 # master
 
       - name: Run coverage tests
         run: devenv shell wasm-trampoline-coverage
 
       - name: Generate coverage report
-        uses: clearlyip/code-coverage-report-action@v5
+        uses: clearlyip/code-coverage-report-action@17b6103ac2d3b9bb6c7a8562ac22a4c010d6d52f # v5.2.0
         id: code_coverage_report_action
         if: ${{ github.actor != 'dependabot[bot]'}}
         with:
@@ -105,7 +125,7 @@ jobs:
           artifact_download_workflow_names: '"Run Tests",cron'
 
       - name: Add coverage PR comment
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728 # v2.9.1
         if:
           steps.code_coverage_report_action.outputs.file != '' &&
           github.event_name == 'pull_request' && (success() || failure())
@@ -120,14 +140,19 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup devenv
-        uses: andyl-technologies/github-actions/setup-devenv@master
+        uses: andyl-technologies/github-actions/setup-devenv@4b005b192a0b5268eb7e5adc11be13f944de9e80 # master
 
       - name: Verify crate publishing
-        uses: katyo/publish-crates@v2
+        uses: katyo/publish-crates@02cc2f1ad653fb25c7d1ff9eb590a8a50d06186b # v2
         with:
           dry-run: true
           ignore-unpublished-changes: false
